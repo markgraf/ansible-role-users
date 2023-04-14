@@ -106,6 +106,9 @@
 - name: Deploy authorized keys for {{ user.name }}
   ansible.posix.authorized_key:
     user: "{{ user.name }}"
+    # While this is the default value,
+    # Ansible will fail in check-mode when the key is not present and the path is not explicitly set.
+    path: "/home/{{ user.name }}/.ssh/authorized_keys"    
     state: present
     key: "{{ item }}"
   loop: "{{ user.authorized_keys }}"
